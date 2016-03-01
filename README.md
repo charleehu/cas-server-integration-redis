@@ -1,5 +1,5 @@
 # cas-server-integration-redis
-使用Maven WAR overlay project(https://github.com/Jasig/cas-overlay-template)构建cas server
+使用[Maven WAR overlay project](https://github.com/Jasig/cas-overlay-template)构建cas server
 
 ##POM
 ```xml
@@ -10,10 +10,12 @@
 </dependency>
 ```
 
+将ticketRegistry.xml中的
 ```xml
 <bean id="ticketRegistry" class="org.jasig.cas.ticket.registry.DefaultTicketRegistry"/>
 ```
 
+改为
 ```xml
 <bean id="ticketRegistry" class="org.jasig.cas.ticket.registry.RedisTicketRegistry">
     <constructor-arg index="0" ref="redisTemplate" />
