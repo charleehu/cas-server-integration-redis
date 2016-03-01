@@ -1,28 +1,42 @@
 # cas-server-integration-redis
+使用Maven WAR overlay project(https://github.com/Jasig/cas-overlay-template)构建cas server
+
+##POM
+```xml
+<dependency>
+  <groupId>org.jasig.cas</groupId>
+  <artifactId>cas-server-integration-redis</artifactId>
+  <version>${cas.version}</version>
+</dependency>
+```
 
 ```xml
-    <bean id="ticketRegistry" class="org.jasig.cas.ticket.registry.RedisTicketRegistry">
-        <constructor-arg index="0" ref="redisTemplate" />
+<bean id="ticketRegistry" class="org.jasig.cas.ticket.registry.DefaultTicketRegistry"/>
+```
 
-        <!-- TGT timeout in seconds -->
-        <constructor-arg index="1" value="1800" />
+```xml
+<bean id="ticketRegistry" class="org.jasig.cas.ticket.registry.RedisTicketRegistry">
+    <constructor-arg index="0" ref="redisTemplate" />
 
-        <!-- ST timeout in seconds -->
-        <constructor-arg index="2" value="300" />
-    </bean>
+    <!-- TGT timeout in seconds -->
+    <constructor-arg index="1" value="1800" />
 
-    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"
-          p:maxTotal="${redis.pool.maxTotal}"
-          p:maxIdle="${redis.pool.maxIdle}"
-          p:maxWaitMillis="${redis.pool.maxWaitMillis}"
-          p:testOnBorrow="${redis.pool.testOnBorrow}"/>
+    <!-- ST timeout in seconds -->
+    <constructor-arg index="2" value="300" />
+</bean>
 
-    <bean id="jedisConnFactory"
-          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-          p:hostName="${redis.hostName}"
-          p:port="${redis.port}"
-          p:poolConfig-ref="jedisPoolConfig"/>
+<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"
+      p:maxTotal="${redis.pool.maxTotal}"
+      p:maxIdle="${redis.pool.maxIdle}"
+      p:maxWaitMillis="${redis.pool.maxWaitMillis}"
+      p:testOnBorrow="${redis.pool.testOnBorrow}"/>
 
-    <bean id="redisTemplate" class="org.jasig.cas.ticket.registry.TicketRedisTemplate"
-          p:connectionFactory-ref="jedisConnFactory"/>
+<bean id="jedisConnFactory"
+      class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+      p:hostName="${redis.hostName}"
+      p:port="${redis.port}"
+      p:poolConfig-ref="jedisPoolConfig"/>
+
+<bean id="redisTemplate" class="org.jasig.cas.ticket.registry.TicketRedisTemplate"
+      p:connectionFactory-ref="jedisConnFactory"/>
 ```
