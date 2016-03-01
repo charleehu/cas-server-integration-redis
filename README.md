@@ -1,7 +1,7 @@
 # cas-server-integration-redis
 使用[Maven WAR overlay project](https://github.com/Jasig/cas-overlay-template)构建cas server
 
-##POM
+添加POM依赖
 ```xml
 <dependency>
   <groupId>org.jasig.cas</groupId>
